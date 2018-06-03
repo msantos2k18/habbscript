@@ -6,16 +6,25 @@
 		set_time_limit(0);
 		
 		$url = simplexml_load_file('https://images.habbo.com/gordon/PRODUCTION-201805282205-521681100/effectmap.xml');
+		$url_h = simplexml_load_file('https://images.habblet.in/library/effectmap.xml');
 
+		foreach($url_h->effect AS $ef) {
+			$h_download = "https://images.habblet.in/library/$ef[lib].swf";
+			$file = '../library/effects/' . urldecode(basename($h_download)) . '';
+			if(!file_exists($file)){
+				copy($h_download, '../library/effects/' . urldecode(basename($h_download)));
+			} 
+		}
+		
 		$i = 0;
 		$reverseArray = (array) $url;
 		$reverseArray = array_reverse($reverseArray["effect"]);
 		
 		foreach($reverseArray AS $e ) {
 			$download = "https://images.habbo.com/gordon/PRODUCTION-201805282205-521681100/$e[lib].swf";
+			
 			if(++$i == 45) break;
 			if($e['lib'] == 'Treadmill' || $e['lib'] == 'TrampolineJump' || $e['lib'] == 'HeadOnTheGround') continue;
-			//copy($download, '../library/effects/' . urldecode(basename($download)));
 
 ?>
 	<div class="boxing" id="files" href="#" title="<?= $e['lib'];?>" data-name="<?= $e['lib'];?>" data-toggle="tooltip" style="cursor:pointer;background-image: url(./library/get_thumbnail.php?effect=<?= $e['lib'];?>)"><div class="about_box" data-toggle="tooltip"><i class="fa fa-download" aria-hidden="true"></i> Clique</div></div></a>
