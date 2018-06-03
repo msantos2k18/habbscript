@@ -1,0 +1,1 @@
+swfbinreplace furni/china_dog.swf 1 furni/china_dog-1.bin
